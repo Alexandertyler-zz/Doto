@@ -1,18 +1,26 @@
 #! /usr/bin/python
 import tarrasque
 
-def analyzeReplay():
-	replay = tarrasque.StreamBinding.from_file("test.dem")
+class Replay:
+	def __init__(self):
+		print("Initializing replay class.")
+
+	def loadReplay(fileName):
+		self.replay = tarrasque.StreamBinding.from_file(fileName)
+		print("Replay fully parsed.")
 
 def parse(command):
-	if command == "-q":
+	if command == "q":
 		exit(0)
 
-	elif command == "-h":
-		print("Still need to implement this.")
+	elif command == "h":
+		print("q - quit\n intialize - Initialize a replay class\n loadReplay - Load a replay for analysis")
 
-	elif command == "-ar":
-		analyzeReplay()	
+	elif command == "initialize":
+		replay = Replay()
+
+	elif command == "loadReplay":
+		replay.loadReplay("test.dem")	
 
 	else:
 		print("Command was not recognized. Enter -h for a list of commands.")
