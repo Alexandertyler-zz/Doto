@@ -8,20 +8,21 @@ class Replay:
 		#initialize players and their heros as objects
 		self.playerPositions = dict()	
 
-	def loadReplay(fileName):
+	def loadReplay(self, fileName):
 		self.replay = tarrasque.StreamBinding.from_file(fileName)
 		print("Replay fully parsed.")
 
-	def initializeHeroDict():
+	def initializeHeroDict(self):
 		for player in self.replay.players:
 			hero = player.hero
 			heroName = hero.name
 			initPosition = hero.position
-			self.playerPositions(heroName=initPosition)
+			self.playerPositions[heroName] = initPosition
 		pprint(self.playerPositions)
 
+
 def test():
-	replayClass = tarrasque.StreamBinding.from_file("test.dem")
+	replayClass = Replay() 
 	replayClass.loadReplay("test.dem")
 	replayClass.initializeHeroDict()
 
