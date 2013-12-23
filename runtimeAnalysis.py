@@ -20,7 +20,7 @@ class Replay:
 			initPosition = hero.position
 			self.playerPositions[heroName] = [initPosition]
 		for entry in self.playerPositions:
-			print(entry, '\n')
+			print(entry)
 
 	def timeStepAndLocation(self, stepSize):
 		self.replay.go_to_tick(self.replay.tick + stepSize)
@@ -30,14 +30,14 @@ class Replay:
 			pos = hero.position
 			self.playerPositions[heroName].append(pos)
 		for entry in self.playerPositions:
-			print(entry, '\n')
+			print(entry)
 
 	def itemsPurchased(self):
 		for player in self.replay.players:
 			for item in player.hero.inventory:
 				self.itemList.append((item, item.purchase_time))
 		for item in self.itemList:
-			print(item, '\n')
+			print(item)
 				
 
 def test():
