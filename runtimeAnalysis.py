@@ -6,7 +6,8 @@ class Replay:
 	def __init__(self):
 		print("Initializing replay class.")
 		#initialize players and their heros as objects
-		self.playerPositions = dict()	
+		self.playerPositions = dict()
+		self.itemList = []
 
 	def loadReplay(self, fileName):
 		self.replay = tarrasque.StreamBinding.from_file(fileName)
@@ -18,7 +19,7 @@ class Replay:
 			heroName = hero.name
 			initPosition = hero.position
 			self.playerPositions[heroName] = [initPosition]
-		pprint(self.playerPositions)
+		print(self.playerPositions)
 
 	def timeStepAndLocation(self, stepSize):
 		self.replay.go_to_tick(self.replay.tick + stepSize)
@@ -27,13 +28,21 @@ class Replay:
 			heroName = hero.name
 			pos = hero.position
 			self.playerPositions[heroName].append(pos)
-		pprint(self.playerPositions)
+		print(self.playerPositions)
+
+	def itemsPurchased(self):
+		for player in self.replay.players:
+			for item in player.hero.inventory:
+				self.itemList.append((item, item.purchase_time))
+		print(self.itemList)
+				
 
 def test():
 	replayClass = Replay() 
 	replayClass.loadReplay("test.dem")
 	replayClass.initializeHeroDict()
 	replayClass.timeStepAndLocation(1)
+	replayClass.itemsPurchased()
 
 def parse(command):
 	if command == "q":
