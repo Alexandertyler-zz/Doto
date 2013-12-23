@@ -17,15 +17,23 @@ class Replay:
 			hero = player.hero
 			heroName = hero.name
 			initPosition = hero.position
-			self.playerPositions[heroName] = initPosition
+			self.playerPositions[heroName] = [initPosition]
 		pprint(self.playerPositions)
 
+	def timeStepAndLocation(self, stepSize):
+		self.replay.go_to_tick(self.replay.tick + stepSize)
+		for player in self.replay.players:
+			hero = player.hero
+			heroName = hero.name
+			pos = hero.position
+			self.playerPositions[heroName].append(pos)
+		pprint(self.playerPositions)
 
 def test():
 	replayClass = Replay() 
 	replayClass.loadReplay("test.dem")
 	replayClass.initializeHeroDict()
-
+	replayClass.timeStepAndLocation(1)
 
 def parse(command):
 	if command == "q":
