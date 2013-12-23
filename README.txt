@@ -16,5 +16,5 @@ How to Use -
 	called test() that does a series of calls to Replay(). This is set up to 
 	only be run once per program. 
 
-	Other commands include q to quit, h for help, and some others that should
-	be ignored for now.
+	Other commands include q to quit, h for help, and some others that
+	should be ignored for now.
