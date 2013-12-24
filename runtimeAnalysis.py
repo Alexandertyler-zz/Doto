@@ -1,6 +1,7 @@
 #! /usr/bin/python
+
 import tarrasque
-from pprint import pprint
+#from pprint import pprint
 
 class Replay:
 	def __init__(self):
@@ -39,6 +40,9 @@ class Replay:
 		for item in self.itemList:
 			print(item)
 				
+class Heatmap:
+	def __init__(self):
+		self.heatmap = []
 
 def test():
 	replayClass = Replay() 
