@@ -1,40 +1,18 @@
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib.mlab as mlab
+import pylab as pl
 import numpy as np
-import numpy.random
 
-n = 1e5
-x = y = x = y = np.linspace(-5, 5, 100)
-X, Y = np.meshgrid(x, y)
-Z1 = mlab.bivariate_normal(X, Y, 2, 2, 0, 0)
-Z2 = mlab.bivariate_normal(X, Y, 4, 1, 1, 1)
-ZD = Z2 - Z1
-x = X.ravel()
-y = Y.ravel()
-z = ZD.ravel()
-gridsize=30
-plt.subplot(111)
+n = 300                                     #number of sample data
+x,y = np.random.rand(2,n)                   #generate random sample locations
 
-# if 'bins=None', then color of each hexagon corresponds directly to its count
-# 'C' is optional--it maps values to x-y coordinates; if 'C' is None (default) then 
-# the result is a pure 2D histogram 
+pl.subplot(121)                             #sub-plot area 1 out of 2
+pl.scatter(x,y,lw=0,c='k')                  #draw sample points
+pl.axis('image')                            #necessary for correct aspect ratio
 
-plt.hexbin(x, y, C=z, gridsize=gridsize, cmap=cm.jet, bins=None)
-plt.axis([x.min(), x.max(), y.min(), y.max()])
+pl.subplot(122)                             #sub-plot area 2 out of 2
 
-cb = plt.colorbar()
-cb.set_label('mean value')
-plt.show()   
+pl.hexbin(x,y,C=None,gridsize=15,bins=None,mincnt=1)        #hexbinning
 
-"""
-x = np.random.randn(8873)
-y = np.random.randn(8873)
+pl.scatter(x,y,lw=0.5,c='k',edgecolor='w')  #overlaying the sample points
+pl.axis('image')                            #necessary for correct aspect ratio
 
-heatmap, xedges, yedges = np.hexbin(x, y, bins=50)
-extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
-
-plt.clf()
-plt.imshow(heatmap, extent=extent)
-plt.show()
-"""
+pl.show()                                   #to show the plot
