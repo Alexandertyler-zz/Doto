@@ -3,7 +3,8 @@
 import tarrasque
 import pylab as pl
 import numpy as np
-
+import math
+import matplotlib.pyplot as plt
 
 
 class Replay:
@@ -38,19 +39,19 @@ class Replay:
 			print(entry)
 
 	def fullGameHeroLocations(self):
-		for tick in replay.iter_ticks(start=game_start, end=game_end):
+		for tick in self.replay.iter_ticks(start="game", end="postgame"):
 			break
 
-	def playerMovementGraph(hero_name):
+	def playerMovementGraph(self, hero_name):
 		for player in self.replay.players:
-			if player.hero = hero_name:
+			if player.hero == hero_name:
 				distance_data = []
 				tick_data = []
 				prevX, prevY = 0
-				go_to_tick(game_start)
+				self.replay.go_to_tick("game")
 				currX, currY = player.hero.position
 				#might have to change step size to get a better estimation of movement
-				for tick in replay.iter_ticks(start=game_start, end=game_end):
+				for tick in self.replay.iter_ticks(start="game", end="postgame"):
 					if not player.hero.is_alive:
 						currX, currY = 0
 						break
@@ -60,9 +61,9 @@ class Replay:
 					distance_data.append(dist_traveled)
 					tick_data.append(tick)
 				#call plotting function
-				#plt.plot(tick_data, distance_data)
-				#plt.show()
-				#plt.savefig("./playerMovementGraph.png")
+				plt.plot(tick_data, distance_data)
+				plt.show()
+				plt.savefig("./playerMovementGraph.png")
 
 	def itemsPurchased(self):
 		for player in self.replay.players:
@@ -71,10 +72,14 @@ class Replay:
 		for item in self.itemList:
 			print(item)
 
-	def netGold(self):
-		for player in self.replay.players:
+	#def netGold(self):
+		#for player in self.replay.players:
 			
-				
+
+def manhattan(currX, currY, prevX, prevY):
+        distance = math.sqrt(abs((currX-prevX) ** 2) + abs((currY-prevY) ** 2))
+        return distance
+
 class Heatmap:
 	def __init__(self, x, y):
 		self.x = x #An array of tuples of locations
@@ -87,15 +92,16 @@ class Heatmap:
 		pl.show()
 
 def test():
-	#replayClass = Replay() 
-	#replayClass.loadReplay("test.dem")
+	replayClass = Replay() 
+	replayClass.loadReplay("test.dem")
+	replayClass.playerMovementGraph("Rubick")
 	#replayClass.initializeHeroDict()
 	#replayClass.timeStepAndLocation(1)
 	#replayClass.itemsPurchased()
-	x = [1, 1, 2, 2, 3, 4, 2, 2, 5]
-	y = [1, 3, 2, 2, 4, 2, 1, 2, 3]
-	heatmap = Heatmap(x, y)
-	heatmap.plot()
+	#x = [1, 1, 2, 2, 3, 4, 2, 2, 5]
+	#y = [1, 3, 2, 2, 4, 2, 1, 2, 3]
+	#heatmap = Heatmap(x, y)
+	#heatmap.plot()
 
 def parse(command):
 	if command == "q":
