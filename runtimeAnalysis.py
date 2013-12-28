@@ -87,20 +87,29 @@ class Replay:
 
     def courierMovement(self, side):
         courierLocations = []
-        for courier in self.replay.creeps.courier:
-            if courier.name == side:        
+        for courier in self.replay.creeps.couriers:
+            if courier.team == side:                       
                 for tick in self.replay.iter_ticks(start="game", end="postgame"):
                     if not courier.is_alive:
                         break
                     courierLocations.append(courier.position)
-                print(courierLocations)
+                xVals = []
+                yVals = []
+                for x, y in courierLocations:
+                    xVals.append(x)
+                    yVals.append(y)
+                im = pl.imread("dota_map.jpg")
+                imgplot = pl.imshow(im)
+                imgplot.set_interpolation('bicubic')
+                pl.scatter(xVals, yVals)
+                pl.show()
 
 def manhattan(currX, currY, prevX, prevY):
     distance = math.sqrt(abs((currX - prevX) ** 2) + abs((currY - prevY) ** 2))
     return distance
 
 
-class Heatmap:
+"""class Heatmap:
     def __init__(self, x, y):
         self.x = x #An array of tuples of locations
         self.y = y
@@ -110,7 +119,7 @@ class Heatmap:
         pl.hexbin(self.x, self.y)
         pl.axis('image')
         pl.show()
-
+"""
 
 def test():
     replayClass = Replay()
