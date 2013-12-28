@@ -8,9 +8,12 @@ import matplotlib.pyplot as plt
 
 
 class Replay:
+    """This class is used to handle the majority of interactions with replays.
+    It has a couple of different funtions to initialize the replay and then many
+    that run analysis on it."""
+    
     def __init__(self):
         print("Initializing replay class.")
-        #initialize players and their heros as objects
         self.playerPositions = dict()
         self.itemList = []
 
@@ -68,7 +71,7 @@ class Replay:
                 #call plotting function
                 plt.plot(tick_data, distance_data)
                 plt.show()
-                plt.savefig("./playerMovementGraph.png")
+                #plt.savefig("./playerMovementGraph.png")
 
     def itemsPurchased(self):
         for player in self.replay.players:
@@ -77,9 +80,20 @@ class Replay:
         for item in self.itemList:
             print(item)
 
-    #def netGold(self):
-        #for player in self.replay.players:
+    def netGold(self, hero_name):
+        for player in self.replay.players:
+            if player.hero == hero_name:
+                return
 
+    def courierMovement(self, side):
+        courierLocations = []
+        for courier in self.replay.creeps.courier:
+            if courier.name == side:        
+                for tick in self.replay.iter_ticks(start="game", end="postgame"):
+                    if not courier.is_alive:
+                        break
+                    courierLocations.append(courier.position)
+                print(courierLocations)
 
 def manhattan(currX, currY, prevX, prevY):
     distance = math.sqrt(abs((currX - prevX) ** 2) + abs((currY - prevY) ** 2))
@@ -101,15 +115,22 @@ class Heatmap:
 def test():
     replayClass = Replay()
     replayClass.loadReplay("test.dem")
-    heroNames = replayClass.heroNames()
-    replayClass.playerMovementGraph(heroNames[0])
-#replayClass.initializeHeroDict()
-#replayClass.timeStepAndLocation(1)
-#replayClass.itemsPurchased()
-#x = [1, 1, 2, 2, 3, 4, 2, 2, 5]
-#y = [1, 3, 2, 2, 4, 2, 1, 2, 3]
-#heatmap = Heatmap(x, y)
-#heatmap.plot()
+    
+    replayClass.courierMovement("radiant")
+    
+    #heroNames = replayClass.heroNames()
+    #replayClass.playerMovementGraph(heroNames[0])
+    
+    #replayClass.initializeHeroDict()
+    
+    #replayClass.timeStepAndLocation(1)
+    
+    #replayClass.itemsPurchased()
+    
+    #x = [1, 1, 2, 2, 3, 4, 2, 2, 5]
+    #y = [1, 3, 2, 2, 4, 2, 1, 2, 3]
+    #heatmap = Heatmap(x, y)
+    #heatmap.plot()
 
 def parse(command):
     if command == "q":
@@ -131,10 +152,10 @@ def parse(command):
         test()
 
     else:
-		print("Command was not recognized. Enter -h for a list of commands.")
-	
+        print("Command was not recognized. Enter -h for a list of commands.")
+    
 
 if __name__=='__main__':
-	while True:
-		command = raw_input("Please enter a command: ")
-		parse(command)
+    while True:
+        command = raw_input("Please enter a command: ")
+        parse(command)
