@@ -14,41 +14,60 @@ class Replay:
     
     def __init__(self):
         print("Initializing replay class.")
-        self.playerPositions = dict()
-        self.
+        
+        #playerPositions is used in initializeHeroDict
+        self.playersAndPositions = dict()
+        #supportItems is used in measuring gold spent on support items
+        self.supportItems = dict()
+
+        #commands to run to initialize
+        self.loadReplay("test.dem")
+        self.initPlayersAndPositions()
+        self.initSupportItems()
 
     def loadReplay(self, fileName):
         self.replay = tarrasque.StreamBinding.from_file(fileName)
         print("Replay fully parsed.")
 
-    def heroNames(self):
-        heroNames = []
-        for player in self.replay.players:
-            heroNames.append(player.hero)
-        return heroNames
+    #Removed heroNames. Use players&pos for name lookup.
 
-    def initializeHeroDict(self):
+    def initPlayersAndPostions(self):
         for player in self.replay.players:
-            hero = player.hero
-            heroName = hero.name
-            initPosition = hero.position
-            self.playerPositions[heroName] = [initPosition]
-        for entry in self.playerPositions:
-            print(entry)
+            #add each hero and their position array
+            self.playersAndPositions[player.hero.name] = []
+
+    def initSupportItems(self):
+       self.supportItems = {
+               'Observer Ward': 150,
+               'Sentry Ward': 200,
+               'Dust of Appearance': 180,
+               'Smoke of Deceit': 100,
+               'Gem of True Sight': 900,
+               'Animal Courier': 150,
+               'Flying Courier': 220,
+               'Headdress': 603,
+               'Buckler': 803,
+               'Hood of Defiance', 2125,
+               'Mekanism': 900,
+               'Pipe of Insight': 900,
+               'Urn of Shadows': 875,
+               'Force Staff': 2250,
+               'Blink Dagger': 2150
+               }
 
     def timeStepAndLocation(self, stepSize):
         self.replay.go_to_tick(self.replay.tick + stepSize)
         for player in self.replay.players:
-            hero = player.hero
-            heroName = hero.name
-            pos = hero.position
-            self.playerPositions[heroName].append(pos)
-        for entry in self.playerPositions:
-            print(entry)
+            self.playersAndPositions[player.hero.name].append(player.hero.position)
+        
+        #Bug checking. Will output a shitton of data
+        #for entry in self.playerPositions:
+            #print(entry)
 
     def fullGameHeroLocations(self):
         for tick in self.replay.iter_ticks(start="game", end="postgame"):
-            break
+            for player in self.replay.players:
+                self.playersAndPositions[player.hero.name].append(player.hero.position)
 
     def playerMovementGraph(self, hero_name):
         for player in self.replay.players:
@@ -77,13 +96,15 @@ class Replay:
         for player in self.replay.players:
             for item in player.hero.inventory:
                 self.itemList.append((item, item.purchase_time))
-        for item in self.itemList:
-            print(item)
+        
+        #Bug testing
+        #for item in self.itemList:
+            #print(item)
 
     def netGold(self, hero_name):
         for player in self.replay.players:
             if player.hero == hero_name:
-                return
+                
 
     def courierMovement(self, side):
         courierLocations = []
@@ -125,8 +146,8 @@ class Replay:
                             if new_item == old_item:
                                 break
                             else:
-                                if supportItems[new_item]:
-                                    totalGold += supportItems[new_item][1]
+                                if new_item in self.supportItems:
+                                    totalGold += self.supportItems[new_item]
                 return totalGold
 
 
