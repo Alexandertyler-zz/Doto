@@ -15,7 +15,7 @@ class Replay:
     def __init__(self):
         print("Initializing replay class.")
         self.playerPositions = dict()
-        self.itemList = []
+        self.
 
     def loadReplay(self, fileName):
         self.replay = tarrasque.StreamBinding.from_file(fileName)
@@ -99,10 +99,39 @@ class Replay:
                     xVals.append(x)
                     yVals.append(y)
                 im = pl.imread("dota_map.jpg")
-                imgplot = pl.imshow(im)
+                #imgplot = pl.imshow(im)
                 imgplot.set_interpolation('bicubic')
                 pl.scatter(xVals, yVals)
+                pl.axis('image')
                 pl.show()
+    
+    def supportGoldHero(self, hero_name):
+        for player in self.replay.players:
+            if player.hero == hero_name:
+                
+                totalGold = 0
+                current_items = []
+                old_items = []
+
+                for tick in self.replay.iter_ticks(start="game", end="postgame"):
+                    old_items = current_items
+                    current_items = []
+                    
+                    for item in player.hero.inventory:
+                        current_items.append(item)
+                    
+                    for new_item in current_items:
+                        for old_item in old_items:
+                            if new_item == old_item:
+                                break
+                            else:
+                                if supportItems[new_item]:
+                                    totalGold += supportItems[new_item][1]
+                return totalGold
+
+
+    def supportGoldTotal(self, side):
+
 
 def manhattan(currX, currY, prevX, prevY):
     distance = math.sqrt(abs((currX - prevX) ** 2) + abs((currY - prevY) ** 2))
