@@ -70,11 +70,25 @@ class Replay:
                 self.playersAndPositions[player.hero.name].append(player.hero.position)
 
     def playerMovementMap(self, hero_name):
-
         for player in self.replay.players:
             if player.hero == hero_name:
                 for tick in self.replay.iter_ticks(start="game", end="postgame"):
-
+                    if not hero.is_alive:
+                        break
+                    self.playersAndPositions[player.hero.name].append(player.hero.position)
+                xVals = []
+                yVals = []
+                for x, y in self.playersAndPositions[player.hero.name]:
+                    xVals.append(x)
+                    yVals.append(y)
+                #im = pl.imread("dota_map.jpg")
+                #imgplot = pl.imshow(im)
+                #imgplot.set_interpolation('bicubic')
+                pl.scatter(xVals, yVals)
+                #pl.axis('image')
+                pl.show()
+                
+                    
     
     def playerMovementScaleGraph(self, hero_name):
         for player in self.replay.players:
@@ -131,11 +145,11 @@ class Replay:
                 for x, y in courierLocations:
                     xVals.append(x)
                     yVals.append(y)
-                im = pl.imread("dota_map.jpg")
+                #im = pl.imread("dota_map.jpg")
                 #imgplot = pl.imshow(im)
-                imgplot.set_interpolation('bicubic')
+                #imgplot.set_interpolation('bicubic')
                 pl.scatter(xVals, yVals)
-                pl.axis('image')
+                #pl.axis('image')
                 pl.show()
     
     def supportGoldHero(self, hero_name):
@@ -183,24 +197,13 @@ def manhattan(currX, currY, prevX, prevY):
         pl.show()"""
 
 def test():
-    replayClass = Replay()
-    replayClass.loadReplay("test.dem")
-    
-    replayClass.courierMovement("radiant")
-    
-    #heroNames = replayClass.heroNames()
+    replayClass = Replay()    
+    replaClass.initPlayersAndPositions()
+    for player in replayClass.playersAndPositions:
+        replayClass.playerMovementMap(player)
+        break
+    #replayClass.courierMovement("radiant")
     #replayClass.playerMovementGraph(heroNames[0])
-    
-    #replayClass.initializeHeroDict()
-    
-    #replayClass.timeStepAndLocation(1)
-    
-    #replayClass.itemsPurchased()
-    
-    #x = [1, 1, 2, 2, 3, 4, 2, 2, 5]
-    #y = [1, 3, 2, 2, 4, 2, 1, 2, 3]
-    #heatmap = Heatmap(x, y)
-    #heatmap.plot()
 
 def parse(command):
     if command == "q":
