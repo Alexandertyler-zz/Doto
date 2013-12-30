@@ -18,3 +18,15 @@ How to Use -
 
 	Other commands include q to quit, h for help, and some others that
 	should be ignored for now.
+
+Things to Work On - 
+    Fix and finish statistical analysis of certain data.
+    Learn and fix heatmaps and other plotting ethods.
+    Implement command line variables to allow for script calling.
+    Develop an interactive web interface.
+    Optimize for single walkthrough based on called commands {
+        Essentially, set te program up to do 3 main loops, pregame,
+        game, postgame. Then have it run any number of commands for 
+        analysis during the one loop. Ie. if key, then function()}
+
+
