@@ -69,7 +69,14 @@ class Replay:
             for player in self.replay.players:
                 self.playersAndPositions[player.hero.name].append(player.hero.position)
 
-    def playerMovementGraph(self, hero_name):
+    def playerMovementMap(self, hero_name):
+
+        for player in self.replay.players:
+            if player.hero == hero_name:
+                for tick in self.replay.iter_ticks(start="game", end="postgame"):
+
+    
+    def playerMovementScaleGraph(self, hero_name):
         for player in self.replay.players:
             if player.hero == hero_name:
                 distance_data = []
@@ -104,7 +111,12 @@ class Replay:
     def netGold(self, hero_name):
         for player in self.replay.players:
             if player.hero == hero_name:
-                
+               return
+
+    def goldPerMinute(self, hero_name):
+        for player in self.replay.players:
+            if player.hero == hero_name:
+
 
     def courierMovement(self, side):
         courierLocations = []
@@ -168,8 +180,7 @@ def manhattan(currX, currY, prevX, prevY):
         #pl.subplot(121)
         pl.hexbin(self.x, self.y)
         pl.axis('image')
-        pl.show()
-"""
+        pl.show()"""
 
 def test():
     replayClass = Replay()
