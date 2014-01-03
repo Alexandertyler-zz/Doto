@@ -21,7 +21,7 @@ class Replay:
         self.supportItems = dict()
 
         #commands to run to initialize
-        self.loadReplay("test.dem")
+        self.loadReplay("test.dem") 
         self.initPlayersAndPositions()
         self.initSupportItems()
 
@@ -31,7 +31,7 @@ class Replay:
 
     #Removed heroNames. Use players&pos for name lookup.
 
-    def initPlayersAndPostions(self):
+    def initPlayersAndPositions(self):
         for player in self.replay.players:
             #add each hero and their position array
             self.playersAndPositions[player.hero.name] = []
@@ -47,7 +47,7 @@ class Replay:
                'Flying Courier': 220,
                'Headdress': 603,
                'Buckler': 803,
-               'Hood of Defiance', 2125,
+               'Hood of Defiance': 2125,
                'Mekanism': 900,
                'Pipe of Insight': 900,
                'Urn of Shadows': 875,
@@ -71,9 +71,9 @@ class Replay:
 
     def playerMovementMap(self, hero_name):
         for player in self.replay.players:
-            if player.hero == hero_name:
+            if player.hero.name == hero_name:
                 for tick in self.replay.iter_ticks(start="game", end="postgame"):
-                    if not hero.is_alive:
+                    if not player.hero.is_alive:
                         break
                     self.playersAndPositions[player.hero.name].append(player.hero.position)
                 xVals = []
@@ -130,7 +130,7 @@ class Replay:
     def goldPerMinute(self, hero_name):
         for player in self.replay.players:
             if player.hero == hero_name:
-
+                break
 
     def courierMovement(self, side):
         courierLocations = []
@@ -178,7 +178,7 @@ class Replay:
 
 
     def supportGoldTotal(self, side):
-
+        return
 
 def manhattan(currX, currY, prevX, prevY):
     distance = math.sqrt(abs((currX - prevX) ** 2) + abs((currY - prevY) ** 2))
@@ -197,9 +197,8 @@ def manhattan(currX, currY, prevX, prevY):
         pl.show()"""
 
 def test():
-    replayClass = Replay()    
-    replaClass.initPlayersAndPositions()
-    for player in replayClass.playersAndPositions:
+    replayClass = Replay()
+    for player in replayClass.playersAndPositions:        
         replayClass.playerMovementMap(player)
         break
     #replayClass.courierMovement("radiant")
